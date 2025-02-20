@@ -9,6 +9,9 @@ import {
     erc20ActionProvider,
     wethActionProvider,
     cdpWalletActionProvider,
+    alchemyTokenPricesActionProvider,
+    morphoActionProvider,
+    moonwellActionProvider
 } from "@coinbase/agentkit";
 import { createWalletClient, http } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
@@ -58,6 +61,9 @@ export async function initializeAgent({
           basenameActionProvider(),
           erc20ActionProvider(),
           wethActionProvider(),
+          alchemyTokenPricesActionProvider(),
+          morphoActionProvider(),
+          moonwellActionProvider()
         ],
       });
   

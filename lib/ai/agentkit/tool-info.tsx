@@ -63,22 +63,6 @@ const toolInfo = {
         icon: <Image src="/images/pyth.png" alt="Pyth" {...imageProps} />,
     },
 
-    // ERC721
-    "mint": {
-        loading: "Minting token...",
-        title: "Minted token",
-        icon: <GalleryHorizontalEnd {...imageProps} />,
-    },
-    "transfer_erc721": {
-        loading: "Transferring ERC721 token...",
-        title: "Transferred ERC721 token",
-        icon: <GalleryHorizontalEnd {...imageProps} />,
-    },
-    "get_balance_erc721": {
-        loading: "Getting ERC721 token balance...",
-        title: "Fetched ERC721 token balance",
-        icon: <GalleryHorizontalEnd {...imageProps} />,
-    },
 
     // ERC20
     "get_balance": {
@@ -131,29 +115,36 @@ const toolInfo = {
         icon: <Image src="/images/weth.png" alt="Weth" {...imageProps} />,
     },
 
-    // Birdeye
-    "get_trending_tokens": {
-        loading: "Fetching trending tokens...",
-        title: "Fetched trending tokens",
-        icon: <Image src="/images/birdeye.png" alt="Birdeye" {...imageProps} />,
-    },
-    "search_tokens": {
-        loading: "Searching tokens...",
-        title: "Searched tokens",
-        icon: <Image src="/images/birdeye.png" alt="Birdeye" {...imageProps} />,
-    },
-    "get_token_address": {
-        loading: "Getting token address...",
-        title: "Fetched token address",
-        icon: <Image src="/images/birdeye.png" alt="Birdeye" {...imageProps} />,
+    // Alchemy
+
+    "token_prices_by_symbol": {
+        loading: "Fetching token prices by symbol...",
+        title: "Fetched token prices by symbol",
+        icon: <Image src="/images/alchemy.png" alt="Alchemy" {...imageProps} />,
     },
 
-    // Moralis
-    "get_token_balances": {
-        loading: "Getting token balances...",
-        title: "Fetched token balances",
-        icon: <Image src="/images/moralis.png" alt="Moralis" {...imageProps} />,
+    "token_prices_by_address": {
+        loading: "Fetching token prices by address...",
+        title: "Fetched token prices by address",
+        icon: <Image src="/images/alchemy.png" alt="Alchemy" {...imageProps} />,
     },
+
+
+    // Moonwell
+
+    "mint": {
+        loading: "Minting Moonwell Mtoken...",
+        title: "Minted Moonwell Mtoken",
+        icon: <Image src="/images/moonwell.png" alt="Moonwell" {...imageProps} />,
+    },
+
+    "redeem": {
+        loading: "Redeeming Moonwell Mtoken...",
+        title: "Redeemed Moonwell Mtoken",
+        icon: <Image src="/images/moonwell.png" alt="Moonwell" {...imageProps} />,
+    },
+    
+    
 } as const;
 
 export const getToolInfo = (toolName: string) => {
