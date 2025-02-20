@@ -143,6 +143,12 @@ const toolInfo = {
         title: "Redeemed Moonwell Mtoken",
         icon: <Image src="/images/moonwell.png" alt="Moonwell" {...imageProps} />,
     },
+
+    "view_markets": {
+        loading: "Fetching Moonwell Markets...",
+        title: "Fetched Moonwell Markets",
+        icon: <Image src="/images/moonwell.png" alt="Moonwell" {...imageProps} />,
+    },
     
     
 } as const;

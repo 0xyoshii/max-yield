@@ -3,6 +3,7 @@
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import type { User } from 'next-auth';
+import { usePathname } from 'next/navigation';
 
 import { PlusIcon } from '@/components/icons';
 import { SidebarUserNav } from '@/components/sidebar-user-nav';
@@ -16,10 +17,17 @@ import {
 } from '@/components/ui/sidebar';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { SidebarNav } from './sidebar-nav';
+import { cn } from '@/lib/utils';
+
+const navigation = [
+  { name: "Chat", href: "/chat" },
+  { name: "Allocator", href: "/allocator" },
+];
 
 export function AppSidebar({ user }: { user: User | undefined }) {
   const router = useRouter();
   const { setOpenMobile } = useSidebar();
+  const pathname = usePathname();
 
   return (
     <Sidebar className="group-data-[side=left]:border-r-0">

@@ -35,9 +35,9 @@ export function SidebarNav() {
       content: <SidebarHistory />
     },
     {
-      title: 'Manager',
+      title: 'Allocator',
       icon: <BarChart className="h-4 w-4" />,
-      href: '/manager'
+      href: '/allocator'
     },
     {
       title: 'Portfolio',

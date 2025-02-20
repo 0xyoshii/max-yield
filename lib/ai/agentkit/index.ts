@@ -16,7 +16,6 @@ import {
 import { createWalletClient, http } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 
-
 import { getVercelAITools } from "./get-vercel-ai-tools";
 import { DEFAULT_NETWORK, SUPPORTED_NETWORKS } from "../../networks";
 
@@ -62,8 +61,7 @@ export async function initializeAgent({
           erc20ActionProvider(),
           wethActionProvider(),
           alchemyTokenPricesActionProvider(),
-          morphoActionProvider(),
-          moonwellActionProvider()
+          morphoActionProvider()
         ],
       });
   
