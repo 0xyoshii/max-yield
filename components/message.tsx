@@ -16,7 +16,6 @@ import { cn } from '@/lib/utils';
 import { Button } from './ui/button';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
 import { MessageEditor } from './message-editor';
-import AgentkitTool from './agentkit-tool';
 
 const PurePreviewMessage = ({
   chatId,
@@ -78,18 +77,6 @@ const PurePreviewMessage = ({
               </div>
             )}
 
-            {message.toolInvocations && message.toolInvocations.length > 0 && (
-              <div className="flex flex-col gap-4">
-                {message.toolInvocations.map((toolInvocation) => {
-                  return (
-                    <AgentkitTool
-                      key={toolInvocation.toolCallId}
-                      toolInvocation={toolInvocation}
-                    />
-                  )
-                })}
-              </div>
-            )}
 
             {message.content && mode === 'view' && (
               <div className="flex flex-row gap-2 items-start">
