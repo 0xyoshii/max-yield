@@ -8,8 +8,8 @@ import './globals.css';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://chat.vercel.ai'),
-  title: 'Coinbase AI Chatbot Template',
-  description: 'Coinbase AI chatbot template using AgentKit.',
+  title: 'Max Yield',
+  description: 'Generate efficient yield strategies',
 };
 
 export const viewport = {
