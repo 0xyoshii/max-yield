@@ -8,6 +8,13 @@ Max Yield is a smart DeFi allocation platform that helps users optimize their yi
 
 ## Features
 
+### 🐝 AI Agents Swarm
+- Multiple AI agents interacting between each other
+- Market scanner agent (aggregates market data)
+- Risk analyzer agent (generates risk scores for market data)
+- Operator agent (performs deposit actions)
+- All agents work as a swarm to generate the best overall APY
+
 ### 🎯 Smart Allocation
 - Automated fund distribution across multiple protocols
 - Real-time APY tracking and optimization
