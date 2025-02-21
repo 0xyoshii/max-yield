@@ -1,5 +1,5 @@
-import type { Market } from "@/lib/ai/market-analyzer/analyzer-actions/moonwell-markets/constants";
-import type { MorphoVault } from "@/lib/ai/market-analyzer/analyzer-actions/morpho-markets/constants";
+import type { Market } from "@/lib/ai/market-analyzer-agent/analyzer-actions/moonwell-markets/constants";
+import type { MorphoVault } from "@/lib/ai/market-analyzer-agent/analyzer-actions/morpho-markets/constants";
 
 type AllocationParams = { 
   amount: number;
@@ -52,6 +52,11 @@ interface AllocationWithPercentage extends Allocation {
   percentage: number;
 }
 
+// Helper function for amount formatting
+function formatUSDC(num: number): string {
+  return (num / 1e6).toFixed(2);
+}
+
 export async function analyzeAndAllocate({
   amount,
   moonwellData,
@@ -94,7 +99,6 @@ export async function analyzeAndAllocate({
   const morphoPool: PoolData = {
     protocol: "morpho",
     vault: morphoData.vaultKey,
-    // For Morpho vaults, use the total APY which includes base + rewards
     supplyApy: morphoData.totalApy || 0,
     utilizationRate: calculateUtilizationRate(
       morphoData.totalSupply.value || 0,
@@ -120,8 +124,8 @@ export async function analyzeAndAllocate({
 
   // Log market metrics in compact format
   await onProgress(`Market Analysis:
-Moonwell | APY: ${moonwellPool.supplyApy.toFixed(2)}% | Util: ${moonwellPool.utilizationRate.toFixed(1)}% | Risk: ${moonwellPool.riskScore.toFixed(1)}/10 | Liquidity: $${(moonwellPool.availableLiquidity / 1e6).toFixed(2)}M
-Morpho   | APY: ${morphoPool.supplyApy.toFixed(2)}% | Util: ${morphoPool.utilizationRate.toFixed(1)}% | Risk: ${morphoPool.riskScore.toFixed(1)}/10 | Liquidity: $${(morphoPool.availableLiquidity / 1e6).toFixed(2)}M`);
+Moonwell | APY: ${moonwellPool.supplyApy.toFixed(2)}% | Util: ${moonwellPool.utilizationRate.toFixed(1)}% | Risk: ${moonwellPool.riskScore.toFixed(1)}/10 | Liquidity: $${formatUSDC(moonwellPool.availableLiquidity)}M
+Morpho   | APY: ${morphoPool.supplyApy.toFixed(2)}% | Util: ${morphoPool.utilizationRate.toFixed(1)}% | Risk: ${morphoPool.riskScore.toFixed(1)}/10 | Liquidity: $${formatUSDC(morphoPool.availableLiquidity)}M`);
 
   // Calculate scores for each pool
   const moonwellScore = calculateMarketScore(moonwellPool);
@@ -162,11 +166,11 @@ Morpho   | APY: ${morphoPool.supplyApy.toFixed(2)}% | Util: ${morphoPool.utiliza
       const scaleFactor = amount / totalAllocated;
       const finalAllocations = allocations.map(alloc => ({
         ...alloc,
-        amount: alloc.amount * scaleFactor
+        amount: Math.floor(alloc.amount * scaleFactor) // Ensure we have whole USDC units
       }));
 
       await onProgress(`Allocation Strategy (Score-based: Moonwell ${moonwellScore.toFixed(1)} vs Morpho ${morphoScore.toFixed(1)}):
-${finalAllocations.map(a => `${a.protocol}: ${(a.amount / amount * 100).toFixed(1)}% (${formatAmount(a.amount)} ETH)`).join(' | ')}`);
+${finalAllocations.map(a => `${a.protocol}: ${((a.amount / amount) * 100).toFixed(1)}% ($${formatUSDC(a.amount)} USDC)`).join(' | ')}`);
 
       return {
         total: amount,
@@ -176,6 +180,7 @@ ${finalAllocations.map(a => `${a.protocol}: ${(a.amount / amount * 100).toFixed(
   }
 
   // Fallback to 50-50 split if scores are invalid
+  const halfAmount = Math.floor(amount / 2); // Ensure we have whole USDC units
   await onProgress("Using default 50-50 allocation strategy");
   return {
     total: amount,
@@ -183,20 +188,15 @@ ${finalAllocations.map(a => `${a.protocol}: ${(a.amount / amount * 100).toFixed(
       {
         protocol: moonwellPool.protocol,
         vault: moonwellPool.vault,
-        amount: amount * 0.5,
+        amount: halfAmount,
         apy: `${moonwellPool.supplyApy.toFixed(2)}%`
       },
       {
         protocol: morphoPool.protocol,
         vault: morphoPool.vault,
-        amount: amount * 0.5,
+        amount: amount - halfAmount, // Ensure we allocate the full amount
         apy: `${morphoPool.supplyApy.toFixed(2)}%`
       }
     ]
   };
-}
-
-// Helper function for amount formatting
-function formatAmount(num: number): string {
-  return num.toFixed(6);
 }

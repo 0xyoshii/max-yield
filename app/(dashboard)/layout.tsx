@@ -10,11 +10,11 @@ export default function DashboardLayout({
 }) {
   return (
     <SidebarProvider>
-      <div className="flex flex-col min-h-screen">
-        <header className="flex sticky top-0 bg-background py-1.5 items-center px-2 md:px-2 gap-2 z-10">
+      <div className="flex-1 flex">
+        <header className="flex sticky top-0 bg-background py-1.5 px-2 md:px-2 gap-2 z-10">
           <SidebarToggle />
         </header>
-        <div className="flex-1 flex">
+        <div className="flex-1">
           {children}
         </div>
       </div>
